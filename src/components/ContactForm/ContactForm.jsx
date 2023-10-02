@@ -1,10 +1,21 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { nanoid } from 'nanoid';
 import { Container, FormInput, SubmitButton } from './ContactForm.styled';
 
+const useLocalStorage = (key,defaultValue) => {
+  const [state, setState] = useState(()=>{
+    return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue;
+  });
+  useEffect(()=>{
+    window.localStorage.setItem(key, JSON.stringify(state));
+  },[key, state]);
+
+  return [state, setState];
+}
+
 export default function ContactForm() {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [name, setName] = useLocalStorage('name', '');
+  const [number, setNumber] = useLocalStorage('number', '');
 
   const handleChange = e => {
     const {name, value} = e.target;
