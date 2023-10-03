@@ -13,7 +13,7 @@ const useLocalStorage = (key,defaultValue) => {
   return [state, setState];
 }
 
-export default function ContactForm() {
+export default function ContactForm({contacts, onSubmit}) {
   const [name, setName] = useLocalStorage('name', '');
   const [number, setNumber] = useLocalStorage('number', '');
 
@@ -31,9 +31,22 @@ export default function ContactForm() {
     }
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+  
+    if (contacts.some(contact => contact.text === name)) {
+      alert(`${name} is already in contacts.`);
+      setName('');
+    } else {
+      onSubmit(name, number);
+      setName('');
+      setNumber('')
+    }
+  };
+
   return (
     <Container>
-      <form >
+      <form onSubmit={handleSubmit}>
         <FormInput>
           Name
           <br />
@@ -62,27 +75,8 @@ export default function ContactForm() {
           />
         </FormInput>
         <br />
-        <SubmitButton type="submit">Add contact</SubmitButton>
+        <SubmitButton type="submit" >Add contact</SubmitButton>
       </form>
     </Container>
   );
 }
-
-// // export default class ContactForm extends Component {
-
-// handleSubmit = e => {
-//   e.preventDefault();
-
-//   const { name, number } = this.state;
-
-//   if (this.props.contacts.some(contact => contact.text === name)) {
-//     alert(`${name} is already in contacts.`);
-//     this.setState({ name: '' });
-//   } else {
-//     this.props.onSubmit(name, number);
-//     this.setState({ name: '', number: '' });
-//   }
-// };
-//     );
-//   }
-// // }
