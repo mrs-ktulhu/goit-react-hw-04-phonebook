@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import styled from 'styled-components';
+import { Wrap } from './App.styled';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
-
-const Wrap = styled.div`
-  margin: 30px 0 0 30px;
-`;
 
 export default class App extends Component {
   state = {
